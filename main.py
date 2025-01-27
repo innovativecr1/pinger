@@ -55,9 +55,25 @@ from selenium.webdriver.common.by import By
 
 driver = webdriver.Chrome()
 
-driver.get("https://www.youtube.com/@SamayRainaOfficial/videos")
+driver.get("https://www.youtube.com/@SamayRainaOfficial/about")
 
 title = driver.title
 print(title)
+
+# tag = driver.find_elements(By.CLASS_NAME, "ytd-about-channel-renderer")
+# print(len(tag))
+
+# ntag = tag.find_elements(By.TAG_NAME, "td")
+# for i in nstag:
+#     print(i.text)
+
+videos = driver.find_element(By.XPATH, "/html/body/ytd-app/ytd-popup-container/tp-yt-paper-dialog/ytd-engagement-panel-section-list-renderer/div[2]/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-about-channel-renderer/div/div[5]/table/tbody/tr[5]/td[2]")
+tVideo = videos.text.split(" ")
+nVideos = int(tVideo[0])
+print(type(nVideos))
+
+with open("no_of_videos", "w") as f:
+    f.write(nVideos)
+
 
 driver.quit()
