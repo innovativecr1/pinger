@@ -14,7 +14,5 @@ data = {
 m = open("data.json")
 
 d = json.load(m)
-print(d["videos"])
+print(type(d["videos"]))
 
-n = open("data.json", "w")
-json.dump(data, n)

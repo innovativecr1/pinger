@@ -95,7 +95,7 @@
 # driver.quit()
 
 
-
+import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -117,20 +117,35 @@ def get_video_count(channel_url):
         element = wait.until(EC.presence_of_element_located(
             (By.XPATH, "/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/div[3]/ytd-tabbed-page-header/tp-yt-app-header-layout/div/tp-yt-app-header/div[2]/div/div[2]/yt-page-header-renderer/yt-page-header-view-model/div/div[1]/div/yt-content-metadata-view-model/div[2]/span[3]/span")
         ))
-        video_count = element.text.split(" ")[0]
+        video_count = int(element.text.split(" ")[0])
         return video_count
     except Exception as e:
         raise Exception(f"Failed to fetch video count: {e}")
     finally:
         driver.quit()
 
+
+def newVideo(videos):
+    print("new video uploaded😍")
+    newData = { 'videos': videos}
+    n = open("data.json", "w")
+    json.dump(newData, n)
+
+def sameVideos():
+    print("nothing new😢")
+
+
 if __name__ == "__main__":
     channel_url = "https://www.youtube.com/@SamayRainaOfficial"
     try:
         video_count = get_video_count(channel_url)
         print(f"The channel has {video_count} videos.")
+        initialData = open("data.json")
+        initialVideoCount = json.load(initialData)["videos"]
+        if initialVideoCount <= video_count:
+            newVideo(video_count)
+        else:
+            sameVideos()
     except Exception as e:
         print(f"Error: {e}")
 
-with open("data.json", "w") as f: 
-    f.write(video_count)
