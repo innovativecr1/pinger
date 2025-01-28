@@ -125,27 +125,32 @@ def get_video_count(channel_url):
         driver.quit()
 
 
-def newVideo(videos):
-    print("new video uploaded😍")
+def newVideo(videos, channel):
+    print(f"New video uploaded😍, {channel}")
     newData = { 'videos': videos}
     n = open("data.json", "w")
     json.dump(newData, n)
 
-def sameVideos():
-    print("nothing new😢")
+def sameVideos(channel):
+    print(f"Nothing new😢, {channel}")
 
 
 if __name__ == "__main__":
-    channel_url = "https://www.youtube.com/@SamayRainaOfficial"
-    try:
-        video_count = get_video_count(channel_url)
-        print(f"The channel has {video_count} videos.")
-        initialData = open("data.json")
-        initialVideoCount = json.load(initialData)["videos"]
-        if initialVideoCount <= video_count:
-            newVideo(video_count)
-        else:
-            sameVideos()
-    except Exception as e:
-        print(f"Error: {e}")
+
+    data = open("data.json")
+    dataJson = json.load(data)
+    for d in dataJson:
+        print(d)
+        channelName = d["channel"]
+        channel_url = f"https://www.youtube.com/@{channelName}"
+        try:
+            video_count = get_video_count(channel_url)
+            print(f"The channel has {video_count} videos.")
+            initialVideoCount = d["videos"]
+            if initialVideoCount < video_count:
+                newVideo(video_count, channelName)
+            else:
+                sameVideos(channelName)
+        except Exception as e:
+            print(f"Error: {e}")
 
