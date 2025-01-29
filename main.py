@@ -163,8 +163,7 @@ def get_video_count(channel_url):
 def newVideo(videos, channel):
     print(f"New video uploaded😍, {channel}")
     newData = { 'videos': videos}
-    n = open("data.json", "w")
-    json.dump(newData, n)
+
 
 def sameVideos(channel):
     print(f"Nothing new😢, {channel}")
@@ -182,8 +181,7 @@ if __name__ == "__main__":
     for d in dataJson:
         print(d)
         channelName = d["channel"]
-        newData.append(d)
-
+        newDict = d
         channel_url = f"https://www.youtube.com/@{channelName}"
         try:
             video_count = get_video_count(channel_url)
@@ -191,6 +189,9 @@ if __name__ == "__main__":
             initialVideoCount = d["videos"]
 
             if initialVideoCount < video_count:
+                newDict["videos"] = video_count
+                newData.append(newDict)
+            
                 newVideo(video_count, channelName)
                 sub = "Pinger, New video found"
                 msg = f"""New video has been uploaded to {channelName} 😍
@@ -200,4 +201,7 @@ if __name__ == "__main__":
                 sameVideos(channelName)
         except Exception as e:
             print(f"Error: {e}")
+    n = open("data.json", "w")
+    json.dump(newData, n)
+    print(newData)
 
