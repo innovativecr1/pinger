@@ -1,3 +1,5 @@
+TO_EMAIL = "emailtobepinged@gmail.com"
+
 import json
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -5,7 +7,6 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
 import os
 import smtplib
 from email.mime.text import MIMEText
@@ -16,8 +17,6 @@ from email.mime.multipart import MIMEMultipart
 def sendMail( recieversEmail, sub, body,):
     EMAIL_ADDRESS = os.getenv("EMAIL")
     EMAIL_PASSWORD= os.getenv("PASS")
-
-    
  
     msg = MIMEMultipart()
     msg["From"] = EMAIL_ADDRESS
@@ -71,8 +70,6 @@ def newVideo(videos, channel):
 def sameVideos(channel):
     print(f"Nothing new😢, {channel}")
 
-
-TO_EMAIL = "innovativecreations195@gmail.com"
 
 
 if __name__ == "__main__":
