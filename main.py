@@ -90,7 +90,6 @@ if __name__ == "__main__":
 
             if initialVideoCount < video_count:
                 newDict["videos"] = video_count
-                newData.append(newDict)
             
                 newVideo(video_count, channelName)
                 sub = "Pinger, New video found"
@@ -99,6 +98,8 @@ if __name__ == "__main__":
                 sendMail(TO_EMAIL, sub, msg)
             else:
                 sameVideos(channelName)
+        
+            newData.append(newDict)
         except Exception as e:
             print(f"Error: {e}")
     n = open("data.json", "w")
